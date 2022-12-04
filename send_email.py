@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 
 
 today_date = dt.today().strftime('%d-%m-%Y')
-subject_of_email =f"Lobste.rs articles from: {today_date}"
+subject_of_email =f'Lobste.rs articles from: {today_date}'
 
 body = ''
 
@@ -34,7 +34,7 @@ def send_the_lobster_articles(body_contents):
     em['From'] = sec.email_sender
     em['To'] = all_receivers()
     em['Subject'] = subject_of_email
-    em.attach(MIMEText(body_contents, "html"))
+    em.attach(MIMEText(body_contents, 'html'))
 
     context = ssl.create_default_context()
 
