@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup as bs
 import requests
 
 headers = {
-    "USER-AGENT" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0" 
+    'USER-AGENT' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0' 
     }
-lobster_url = "https://lobste.rs/rss"
+lobster_url = 'https://lobste.rs/rss'
 soup_titles = []
 soup_links = []
 
@@ -16,10 +16,10 @@ def get_lobster_articles():
         lobster_request = requests.get(lobster_url, headers=headers)
         
     except Exception as e:
-        print(f"Could not send the request to: {lobster_url}")
+        print(f'Could not send the request to: {lobster_url}')
         print(e)
     
-    print(f"The request is: {lobster_request.text}")
+    print(f'The request is: {lobster_request.text}')
     return lobster_request
 
 def format_lobster_articles():
@@ -40,5 +40,5 @@ def format_lobster_articles():
             } for i in range(len(soup_ingredients))
         }
     
-    print(f"The soup object is: {soup_object}")
+    print(f'The soup object is: {soup_object}')
     return soup_object
