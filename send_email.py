@@ -3,54 +3,51 @@
 import smtplib
 import ssl
 from email.message import EmailMessage
-import jinja2
-import sec
-
-subject_of_email = "sec.py testing"
-obj = {
-    'el1': {
-    'title': '&#8216;Let It Crash&#8217; under attack',
-    'link': 'http://blog.syncpup.com/posts/let-it-crash-under-attack.html'
-    },
-
-    "el2": {
-    'title': 'How Do Software Projects End?',
-    'link': 'https://danielbmarkham.com/how-do-software-projects-end/'
-    },
-
-    "el3" : {
-    'title': 'Tailwind is a Leaky Abstraction',
-    'link': 'https://jakelazaroff.com/words/tailwind-is-a-leaky-abstraction/'
-    }
-}
-
-# body = """
-
-# <a href="http://blog.syncpup.com/posts/let-it-crash-under-attack.html">&#8216;Let It Crash&#8217; under attack</a> <br>
-# <a href="https://blog.phundrak.com/emacs-29-what-can-we-expect/">Emacs 29 is nigh! What can we expect?</a>
-# """
-body = "taking the pass and the receiver, sender from the sec.py"
-
-# for e in obj: 
-#     # body += """
-#     #     <a href="{e.link}">{e.title}</a> <br>
-#     # """
-#     print(f"Link: e['link'] ")
+import sec #Local secrets
+import json
+from datetime import datetime as dt
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
-print(f"Sender: {sec.email_sender}, password is {sec.email_sender_password}, receiver: {sec.email_receiver}")
+today_date = dt.today().strftime('%d-%m-%Y')
+subject_of_email =f"Lobste.rs articles from: {today_date}"
 
-em = EmailMessage()
-em['From'] = sec.email_sender
-em['To'] = sec.email_receiver
-em['Subject'] = subject_of_email
-em.add_header('Content-Type','text/html')
-# em.set_content(body)
-em.set_payload(body)
+body = ''
 
-context = ssl.create_default_context()
+with open('articles.json') as user_file:
+  articles_contents = user_file.read()
 
-with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-    smtp.login(sec.email_sender, sec.email_sender_password)
-    smtp.sendmail(sec.email_sender, sec.email_receiver, em.as_string())
- 
+articles_dict = json.loads(articles_contents)
+
+for key, article in articles_dict.items():
+    # print(f"KEY: {key}  Titles: {article['title']} LINKS: {article['link']}")
+    body += f"<p>{key}. <a href={article['link']}>{article['title']}</a></p>"
+
+# print(json.dumps(articles_dict, indent = 4,))
+
+# print( type(body))
+
+def send_the_lobster_articles(body_contents):
+    em = MIMEMultipart()
+    em['From'] = sec.email_sender
+    em['To'] = sec.email_receiver
+    em['Subject'] = subject_of_email
+    # em.add_header('Content-Type','text/html')
+    em.attach(MIMEText(body, "html"))
+    
+    # em = EmailMessage()
+    # em['From'] = sec.email_sender
+    # em['To'] = sec.email_receiver
+    # em['Subject'] = subject_of_email
+    # em.add_header('Content-Type','text/html')
+    # em.set_content("{}".format(body_contents))
+    # em.set_payload(body_contents)
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(sec.email_sender, sec.email_sender_password)
+        smtp.sendmail(sec.email_sender, sec.email_receiver, em.as_string())
+
+send_the_lobster_articles(body)
