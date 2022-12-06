@@ -4,6 +4,7 @@ import lobster_req
 import os.path as path
 import json
 import time
+from send_email import send_the_lobster_articles
 
 def is_articles_json_old(days=1): 
     articles_file = path.getmtime("articles.json") 
@@ -15,3 +16,5 @@ def is_articles_json_old(days=1):
         with open("articles.json",'w',encoding = 'utf-8') as f:
             f.write(json_soup)
             f.close
+
+send_the_lobster_articles()

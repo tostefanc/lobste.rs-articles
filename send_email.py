@@ -29,7 +29,7 @@ def all_receivers():
         receivers = sec.email_receiver
     return receivers
 
-def send_the_lobster_articles(body_contents):
+def send_the_lobster_articles(body_contents=body):
     em = MIMEMultipart()
     em['From'] = sec.email_sender
     em['To'] = all_receivers()
@@ -41,5 +41,3 @@ def send_the_lobster_articles(body_contents):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
         smtp.login(sec.email_sender, sec.email_sender_password)
         smtp.sendmail(sec.email_sender, sec.email_receiver, em.as_string())
-
-send_the_lobster_articles(body)
