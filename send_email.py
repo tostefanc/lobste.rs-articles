@@ -2,32 +2,33 @@
 
 import smtplib
 import ssl
-import sec #Local secrets
+import sec  # Local secrets
 import json
 from datetime import datetime as dt
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
 today_date = dt.today().strftime('%d-%m-%Y')
-subject_of_email =f'Lobste.rs articles from: {today_date}'
+subject_of_email = f'Lobste.rs articles from: {today_date}'
 
 body = ''
 
 with open('articles.json') as user_file:
-  articles_contents = user_file.read()
+    articles_contents = user_file.read()
 
 articles_dict = json.loads(articles_contents)
 
 for key, article in articles_dict.items():
     body += f"<p>{key}. <a href={article['link']}>{article['title']}</a></p>"
 
+
 def all_receivers():
-    if type(sec.email_receiver is list):
+    if type(sec.email_receiver) is list:
         receivers = ', '.join(sec.email_receiver)
     else:
         receivers = sec.email_receiver
     return receivers
+
 
 def send_the_lobster_articles(body_contents=body):
     em = MIMEMultipart()
