@@ -23,7 +23,7 @@ for key, article in articles_dict.items():
 
 
 def all_receivers():
-    if type(sec.email_receiver is list):
+    if type(sec.email_receiver) is list:
         receivers = ', '.join(sec.email_receiver)
     else:
         receivers = sec.email_receiver
