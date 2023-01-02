@@ -39,3 +39,8 @@ chmod +x lobsters-cron.sh
 ```sh
 ./lobsters-cron.sh
 ```
+
+- To run the bash script in cron you need to specify the `lobste.rs-articles` directory (can be done via a subshell). Example for a cron that's running everyday at 14:00: 
+```sh
+0 14 * * * (cd /full/path/to/lobste.rs-articles/ && ./lobsters-cron.sh)
+```
