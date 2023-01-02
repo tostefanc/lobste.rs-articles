@@ -11,16 +11,6 @@ from email.mime.text import MIMEText
 today_date = dt.today().strftime('%d-%m-%Y')
 subject_of_email = f'Lobste.rs articles from: {today_date}'
 
-body = ''
-
-with open('articles.json') as user_file:
-    articles_contents = user_file.read()
-
-articles_dict = json.loads(articles_contents)
-
-for key, article in articles_dict.items():
-    body += f"<p>{key}. <a href={article['link']}>{article['title']}</a></p>"
-
 
 def all_receivers():
     if type(sec.email_receiver) is list:
@@ -30,7 +20,7 @@ def all_receivers():
     return receivers
 
 
-def send_the_lobster_articles(body_contents=body):
+def send_the_lobster_articles(body_contents):
     em = MIMEMultipart()
     em['From'] = sec.email_sender
     em['To'] = all_receivers()
