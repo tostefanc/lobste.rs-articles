@@ -6,6 +6,7 @@ import json
 import time
 from send_email import send_the_lobster_articles
 from os.path import exists
+import hacker
 
 articles_file = "articles.json"
 
@@ -19,17 +20,19 @@ def is_articles_json_old(days=1):
 def recreate_articles_json():
     if exists(articles_file):
         os.remove(articles_file)
-        soup_object = lobster_req.format_lobster_articles()
-        json_soup = json.dumps(soup_object)
+        big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        json_big_soup = json.dumps(big_soup)
+
         with open("articles.json", 'w', encoding='utf-8') as f:
-            f.write(json_soup)
-            f.close
+            f.write(json_big_soup)
+            f.close()
     else:
-        soup_object = lobster_req.format_lobster_articles()
-        json_soup = json.dumps(soup_object)
+        big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        json_big_soup = json.dumps(big_soup)
+
         with open("articles.json", 'w', encoding='utf-8') as f:
-            f.write(json_soup)
-            f.close
+            f.write(json_big_soup)
+            f.close()
 
 
 def format_the_email_body():
