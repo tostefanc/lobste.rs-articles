@@ -8,7 +8,6 @@ headers = {
 
 url_top_stories = 'https://hacker-news.firebaseio.com/v0/topstories.json'
 top_stories = []
-# https://hacker-news.firebaseio.com/v0/item/35579334.json?print=pretty' URL Example
 
 
 def get_hacker_object():
@@ -19,8 +18,7 @@ def get_hacker_object():
             sys.exit(e)
         return stories
 
-    for story in range(0, 5):
-        # print(story)
+    for story in range(0, 24):
         url = "https://hacker-news.firebaseio.com/v0/item/{}.json".format(hk_get_top_stories()[story])
 
         top_stories.append(
@@ -30,12 +28,11 @@ def get_hacker_object():
 
     hacker_object = {
         i: {
-            'title': top_stories[i],
-            'link': top_stories[i]
+            'title': top_stories[i]['title'],
+            'link': top_stories[i]['url']
         } for i in range(len(top_stories))
     }
 
-    # print(hacker_object)
     return hacker_object
 
 
