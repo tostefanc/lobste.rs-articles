@@ -17,17 +17,33 @@ def is_articles_json_old(days=1):
         return True
 
 
+def remove_duplicates_article(input_raw):
+    result = {}
+
+    for key, value in input_raw.items():
+        print("IN FOR: ", input_raw[key])
+        if value not in result.values():
+            result[key] = value
+    return result
+
+
 def recreate_articles_json():
     if exists(articles_file):
         os.remove(articles_file)
-        big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        # big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        big_soup = hacker.get_hacker_object() | lobster_req.format_lobster_articles()
+        # big_soup_no_duplicates = remove_duplicates_article(big_soup)
+        # json_big_soup = json.dumps(big_soup_no_duplicates)
         json_big_soup = json.dumps(big_soup)
 
         with open("articles.json", 'w', encoding='utf-8') as f:
             f.write(json_big_soup)
             f.close()
     else:
-        big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        # big_soup = lobster_req.format_lobster_articles() | hacker.get_hacker_object()
+        big_soup = hacker.get_hacker_object() | lobster_req.format_lobster_articles()
+        # big_soup_no_duplicates = remove_duplicates_article(big_soup)
+        # json_big_soup = json.dumps(big_soup_no_duplicates)
         json_big_soup = json.dumps(big_soup)
 
         with open("articles.json", 'w', encoding='utf-8') as f:
