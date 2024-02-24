@@ -33,7 +33,7 @@ def format_lobster_articles():
 
     soup_object = {
         i : {
-            'title': soup_titles[i],
+            'titleLOBSTER': soup_titles[i],
             'link': soup_links[i]
             } for i in range(len(soup_ingredients))
         }
