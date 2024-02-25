@@ -28,7 +28,7 @@ def get_hacker_object():
 
     hacker_object = {
         i: {
-            'titleHACKER': top_stories[i]['title'],
+            'title': top_stories[i]['title'],
             'link': top_stories[i]['url']
         } for i in range(len(top_stories))
     }
